@@ -15,5 +15,6 @@ use App\Http\Controllers\API\ProductsController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('api/products',[ProductsController::class, 'index'])->middleware('cors');;
-Route::post('api/products',[ProductsController::class, 'store'])->middleware('cors');;
+Route::get('api/products',[ProductsController::class, 'index']);
+Route::post('api/products',[ProductsController::class, 'store']);
+Route::delete('api/products/{id}',[ProductsController::class, 'destroy']);

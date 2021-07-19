@@ -30,16 +30,17 @@ class ProductsController extends ApiController
      */
     public function store(Request $request)
     {
-      //return  json_encode($request);
-        try{
-           // $data=['name',$request->ge]
-            $client = new Product($request->array());
+
+        try {
+            $data = [
+                'name' => $request->name, 'price' => $request->price, 'quantity' => $request->quantity, 'description' => $request->description
+            ];
+            $client = new Product($data);
             $client->save();
-            return $request->respondSuccess();
-        }catch(Exception $ex){
-            return response()->json(['status'=>false,'error'=>$ex->getMessage()],500);
+            return response()->json(['status' => true]);
+        } catch (Exception $ex) {
+            return response()->json(['status' => false, 'error' => $ex->getMessage()], 500);
         }
-        
     }
 
     /**
@@ -73,6 +74,12 @@ class ProductsController extends ApiController
      */
     public function destroy($id)
     {
-        //
+
+        try {
+            $res = Product::where('id', $id)->delete();
+            return response()->json(['status' => true]);
+        } catch (Exception $ex) {
+            return response()->json(['status' => false, 'error' => $ex->getMessage()], 500);
+        }
     }
 }
