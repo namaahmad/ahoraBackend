@@ -12,8 +12,8 @@ use App\Http\Controllers\API\ProductsController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('api/products',[ProductsController::class, 'index']);
+Route::get('api/products',[ProductsController::class, 'index'])->middleware('cors');;
+Route::post('api/products',[ProductsController::class, 'store'])->middleware('cors');;
