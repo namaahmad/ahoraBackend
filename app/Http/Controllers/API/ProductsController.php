@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
-class ProductsController extends Controller
+use App\Http\Request\CreateProduct;
+use Exception;
+
+class ProductsController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +18,8 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $data=Product::all();
-        return response()->json($data);
+        $data = Product::all();
+        return response()->json(["items" => $data]);
     }
 
     /**
@@ -26,7 +30,16 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      //return  json_encode($request);
+        try{
+           // $data=['name',$request->ge]
+            $client = new Product($request->array());
+            $client->save();
+            return $request->respondSuccess();
+        }catch(Exception $ex){
+            return response()->json(['status'=>false,'error'=>$ex->getMessage()],500);
+        }
+        
     }
 
     /**
